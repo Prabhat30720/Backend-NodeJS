@@ -1,12 +1,19 @@
 import express from "express";
 
+// For production purpose, just for the deployement. Because we can not use port 3000 directly in the code this will give you the error at the time of the deployement
+
+// require("dotenv").config();   // If this is not working try differrent methods
+
+import "dotenv/config";
+
 // Create an express application
 
 const app = express();
 
 // Port for communication to listen a request and respond to it.
+// process.env.PORT is a variable from .env file
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 /* app.get("/", (req, res) => {
   res.send("Hello from Prabhat Jaiswar.");

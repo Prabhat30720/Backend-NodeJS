@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "a simple manager for expressJS Learning",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^5.1.0"
   },
   "devDependencies": {
