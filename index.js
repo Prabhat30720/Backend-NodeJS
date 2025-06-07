@@ -6,14 +6,39 @@ import express from "express";
 
 import "dotenv/config";
 
+import logger from "./logger.js";
+import morgan from "morgan";
+
+// How do you want your information to be printed on console log
+
+const morganFormat = ":method :url :status :response-time ms";
+
 // Create an express application
 
 const app = express();
 
+// Middle-ware
+
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => {
+        const logObject = {
+          method: message.split(" ")[0],
+          url: message.split(" ")[1],
+          status: message.split(" ")[2],
+          responseTime: message.split(" ")[3],
+        };
+        logger.info(JSON.stringify(logObject));
+      },
+    },
+  })
+);
+
 // Port for communication to listen a request and respond to it.
 // process.env.PORT is a variable from .env file
 
-const port = process.env.PORT || 3000;
+const port = 3000 || process.env.PORT;
 
 /* app.get("/", (req, res) => {
   res.send("Hello from Prabhat Jaiswar.");
@@ -27,7 +52,7 @@ app.get("/twitter", (req, res) => {
   res.send("prabhat30720");
 }); */
 
-// Except all the data which is in the JSON format
+// Accept all the data which is coming in the JSON format
 
 app.use(express.json());
 
@@ -41,6 +66,8 @@ let nextId = 1;
 // Add a new Tea
 
 app.post("/teas", (req, res) => {
+  // logger.info("A post request is made to add a new tea");
+  logger.warn("A post request is made to add a new tea");
   // req.body comes from POSTMAN
   // req.body.name and req.body.price ---> data is in the JSON format
   // Destructuring the data
@@ -63,6 +90,8 @@ app.get("/teas", (req, res) => {
 // Get a Tea with id
 
 app.get("/teas/:id", (req, res) => {
+  // find() method check every single entity of teaData array
+  // getting data from body we use req.body and if getting data from URL we use req.params
   const tea = teaData.find(
     (arrayItem) => arrayItem.id === parseInt(req.params.id)
   );
@@ -99,8 +128,9 @@ app.delete("/teas/:id", (req, res) => {
   );
 
   if (teaIndex === -1) {
-    return res.status(400).send("Tea not found");
+    return res.status(404).send("Tea not found");
   }
+  // splice() is also used to delete the index from an array i.e. splice(indexToBeDeleted, Number of items to be deleted);
   teaData.splice(teaIndex, 1);
   return res.status(200).send("Deleted");
 });
