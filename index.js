@@ -9,7 +9,8 @@ import "dotenv/config";
 import logger from "./logger.js";
 import morgan from "morgan";
 
-// How do you want your information to be printed on console log
+// How do you want your information to be printed on console log as logging format
+// morganFormat is a variable which will be used to format the log messages
 
 const morganFormat = ":method :url :status :response-time ms";
 

@@ -14,6 +14,8 @@ const logger = createLogger({
   level: "info",
   format: combine(colorize(), timestamp(), json()),
   transports: [
+    // TO overrite the default console transport
+    // and use a custom format for console logging
     new transports.Console({
       format: consoleLogFormat,
     }),
