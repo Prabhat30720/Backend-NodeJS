@@ -68,6 +68,7 @@ let nextId = 1;
 app.post("/teas", (req, res) => {
   // logger.info("A post request is made to add a new tea");
   logger.warn("A post request is made to add a new tea");
+  // req.body is given by express framework
   // req.body comes from POSTMAN
   // req.body.name and req.body.price ---> data is in the JSON format
   // Destructuring the data
@@ -90,7 +91,7 @@ app.get("/teas", (req, res) => {
 // Get a Tea with id
 
 app.get("/teas/:id", (req, res) => {
-  // find() method check every single entity of teaData array
+  // find() method check every single entity of teaData array and returns thee matched entity
   // getting data from body we use req.body and if getting data from URL we use req.params
   const tea = teaData.find(
     (arrayItem) => arrayItem.id === parseInt(req.params.id)
